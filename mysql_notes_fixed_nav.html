@@ -1,0 +1,456 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--code-bg:#1a1d23;--kw:#93c5fd;--fn:#86efac;--str:#fde68a;--cm:#94a3b8;--num:#f9a8d4}
+.wrap{display:flex;align-items:flex-start;gap:0}
+.sidebar{width:200px;flex-shrink:0;border-right:0.5px solid var(--color-border-tertiary);padding:1rem 0;position:sticky;top:0;max-height:100vh;overflow-y:auto}
+.sb-title{font-size:10px;font-weight:500;color:var(--color-text-tertiary);letter-spacing:.08em;text-transform:uppercase;padding:0 1rem .5rem}
+.nav-item{display:block;padding:4px 1rem;font-size:12px;color:var(--color-text-secondary);cursor:pointer;border-left:2px solid transparent;line-height:1.5;user-select:none}
+.nav-item:hover{color:var(--color-text-primary);background:var(--color-background-secondary)}
+.nav-item.on{color:var(--color-text-primary);border-left-color:#3b82f6;font-weight:500}
+.content{flex:1;padding:1.75rem 2rem;min-width:0}
+.sec{margin-bottom:2.5rem}
+h1{font-size:21px;font-weight:500;margin-bottom:.4rem}
+h2{font-size:16px;font-weight:500;margin:1.5rem 0 .6rem}
+h3{font-size:13px;font-weight:500;color:var(--color-text-secondary);margin:1rem 0 .4rem}
+p{font-size:13px;color:var(--color-text-secondary);line-height:1.7;margin-bottom:.6rem}
+pre{background:var(--code-bg);border-radius:var(--border-radius-md);padding:.85rem 1.1rem;margin:.6rem 0 .9rem;overflow-x:auto;border:0.5px solid #2d3748}
+code{font-family:var(--font-mono);font-size:12px;line-height:1.6;color:#e2e8f0}
+.kw{color:var(--kw)}.fn{color:var(--fn)}.str{color:var(--str)}.cm{color:var(--cm);font-style:italic}.nm{color:var(--num)}
+ic{font-family:var(--font-mono);font-size:11.5px;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);padding:1px 5px;border-radius:4px;color:var(--color-text-primary)}
+.tw{overflow-x:auto;margin:.6rem 0 .9rem}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{text-align:left;padding:6px 10px;background:var(--color-background-secondary);font-weight:500;border-bottom:0.5px solid var(--color-border-secondary)}
+td{padding:6px 10px;color:var(--color-text-secondary);border-bottom:0.5px solid var(--color-border-tertiary)}
+.tip{background:var(--color-background-info);border-left:3px solid #185fa5;padding:8px 12px;border-radius:0 6px 6px 0;margin:.6rem 0}
+.tip p{color:var(--color-text-info);font-size:12.5px;margin:0}
+.warn{background:var(--color-background-warning);border-left:3px solid #854f0b;padding:8px 12px;border-radius:0 6px 6px 0;margin:.6rem 0}
+.warn p{color:var(--color-text-warning);font-size:12.5px;margin:0}
+.hr{height:0.5px;background:var(--color-border-tertiary);margin:1.5rem 0}
+.badge{display:inline-block;font-size:11px;font-weight:500;padding:2px 7px;border-radius:var(--border-radius-md);margin-right:4px}
+.bb{background:#e6f1fb;color:#185fa5}.bg{background:#eaf3de;color:#3b6d11}.ba{background:#faeeda;color:#854f0b}.br{background:#fcebeb;color:#a32d2d}.bp{background:#eeedfe;color:#534ab7}.bt{background:#e1f5ee;color:#0f6e56}
+</style>
+
+<h2 style="position:absolute;width:1px;height:1px;overflow:hidden">MySQL complete study notes</h2>
+
+<div class="wrap">
+<div class="sidebar" id="sb">
+  <div class="sb-title">MySQL Notes</div>
+  <a class="nav-item on" data-id="s0">Installation</a>
+  <a class="nav-item" data-id="s1">Databases &amp; Tables</a>
+  <a class="nav-item" data-id="s2">Data Types</a>
+  <a class="nav-item" data-id="s3">Constraints</a>
+  <a class="nav-item" data-id="s4">INSERT</a>
+  <a class="nav-item" data-id="s5">SELECT &amp; WHERE</a>
+  <a class="nav-item" data-id="s6">UPDATE &amp; DELETE</a>
+  <a class="nav-item" data-id="s7">Functions</a>
+  <a class="nav-item" data-id="s8">Transactions</a>
+  <a class="nav-item" data-id="s9">Keys</a>
+  <a class="nav-item" data-id="s10">JOINs</a>
+  <a class="nav-item" data-id="s11">UNION</a>
+  <a class="nav-item" data-id="s12">Self JOIN</a>
+  <a class="nav-item" data-id="s13">Views</a>
+  <a class="nav-item" data-id="s14">Indexes</a>
+  <a class="nav-item" data-id="s15">Subqueries</a>
+  <a class="nav-item" data-id="s16">GROUP BY</a>
+  <a class="nav-item" data-id="s17">Stored Procedures</a>
+  <a class="nav-item" data-id="s18">Triggers</a>
+  <a class="nav-item" data-id="s19">More MySQL</a>
+</div>
+
+<div class="content">
+  <h1>MySQL — Complete Notes</h1>
+  <p style="margin-bottom:1.2rem">Syntax, examples and best practices for every core concept.</p>
+
+  <div class="sec" id="s0">
+    <h2>Installation</h2>
+    <h3>Windows / macOS</h3>
+    <p>Download from <ic>dev.mysql.com/downloads/installer/</ic>, choose <em>Developer Default</em>, set root password.</p>
+    <h3>Linux (Ubuntu)</h3>
+    <pre><code><span class="cm"># Update + install</span>
+<span class="kw">sudo</span> apt update
+<span class="kw">sudo</span> apt install mysql-server
+<span class="kw">sudo</span> mysql_secure_installation
+
+<span class="cm"># Create user</span>
+<span class="kw">CREATE USER</span> <span class="str">'harry'</span>@<span class="str">'localhost'</span> <span class="kw">IDENTIFIED BY</span> <span class="str">'password'</span>;
+<span class="kw">GRANT ALL PRIVILEGES ON</span> *.* <span class="kw">TO</span> <span class="str">'harry'</span>@<span class="str">'localhost'</span> <span class="kw">WITH GRANT OPTION</span>;
+<span class="kw">FLUSH PRIVILEGES</span>;</code></pre>
+  </div><div class="hr"></div>
+
+  <div class="sec" id="s1">
+    <h2>Databases &amp; Tables</h2>
+    <pre><code><span class="kw">CREATE DATABASE</span> startersql;
+<span class="kw">USE</span> startersql;
+<span class="kw">DROP DATABASE</span> startersql;</code></pre>
+    <h3>Create table</h3>
+    <pre><code><span class="kw">CREATE TABLE</span> users (
+    id            <span class="fn">INT</span> <span class="kw">AUTO_INCREMENT PRIMARY KEY</span>,
+    name          <span class="fn">VARCHAR</span>(<span class="nm">100</span>) <span class="kw">NOT NULL</span>,
+    email         <span class="fn">VARCHAR</span>(<span class="nm">100</span>) <span class="kw">UNIQUE NOT NULL</span>,
+    gender        <span class="fn">ENUM</span>(<span class="str">'Male'</span>,<span class="str">'Female'</span>,<span class="str">'Other'</span>),
+    date_of_birth <span class="fn">DATE</span>,
+    salary        <span class="fn">INT</span>,
+    created_at    <span class="fn">TIMESTAMP</span> <span class="kw">DEFAULT CURRENT_TIMESTAMP</span>
+);</code></pre>
+    <h3>Alter table</h3>
+    <pre><code><span class="kw">ALTER TABLE</span> users <span class="kw">ADD COLUMN</span> is_active <span class="fn">BOOLEAN</span> <span class="kw">DEFAULT TRUE</span>;
+<span class="kw">ALTER TABLE</span> users <span class="kw">DROP COLUMN</span> is_active;
+<span class="kw">ALTER TABLE</span> users <span class="kw">MODIFY COLUMN</span> name <span class="fn">VARCHAR</span>(<span class="nm">150</span>);
+<span class="kw">ALTER TABLE</span> users <span class="kw">MODIFY COLUMN</span> email <span class="fn">VARCHAR</span>(<span class="nm">100</span>) <span class="kw">FIRST</span>;
+<span class="kw">RENAME TABLE</span> users <span class="kw">TO</span> customers;</code></pre>
+  </div><div class="hr"></div>
+
+  <div class="sec" id="s2">
+    <h2>Data Types</h2>
+    <div class="tw"><table>
+      <tr><th>Type</th><th>Description</th><th>Example</th></tr>
+      <tr><td><ic>INT</ic></td><td>Whole numbers</td><td>age INT</td></tr>
+      <tr><td><ic>VARCHAR(n)</ic></td><td>Variable string up to n chars</td><td>name VARCHAR(100)</td></tr>
+      <tr><td><ic>ENUM(…)</ic></td><td>One value from a fixed list</td><td>gender ENUM('Male','Female')</td></tr>
+      <tr><td><ic>DATE</ic></td><td>Date (YYYY-MM-DD)</td><td>date_of_birth DATE</td></tr>
+      <tr><td><ic>TIMESTAMP</ic></td><td>Date + time</td><td>created_at TIMESTAMP</td></tr>
+      <tr><td><ic>BOOLEAN</ic></td><td>TRUE / FALSE</td><td>is_active BOOLEAN</td></tr>
+      <tr><td><ic>DECIMAL(p,s)</ic></td><td>Exact decimal — p total digits, s after point</td><td>price DECIMAL(10,2)</td></tr>
+    </table></div>
+  </div><div class="hr"></div>
+
+  <div class="sec" id="s3">
+    <h2>Constraints</h2>
+    <div class="tw"><table>
+      <tr><th>Constraint</th><th>Purpose</th></tr>
+      <tr><td><span class="badge bb">PRIMARY KEY</span></td><td>Uniquely identifies each row; NOT NULL + UNIQUE combined</td></tr>
+      <tr><td><span class="badge bg">UNIQUE</span></td><td>All values must differ; NULL allowed</td></tr>
+      <tr><td><span class="badge ba">NOT NULL</span></td><td>Column cannot hold NULL</td></tr>
+      <tr><td><span class="badge bp">CHECK</span></td><td>Values must satisfy a condition</td></tr>
+      <tr><td><span class="badge bt">DEFAULT</span></td><td>Assigns a value when none is provided</td></tr>
+      <tr><td><span class="badge br">AUTO_INCREMENT</span></td><td>Auto-generates unique sequential integers</td></tr>
+    </table></div>
+    <pre><code><span class="kw">ALTER TABLE</span> users <span class="kw">ADD CONSTRAINT</span> unique_email <span class="kw">UNIQUE</span> (email);
+<span class="kw">ALTER TABLE</span> users <span class="kw">ADD CONSTRAINT</span> chk_dob <span class="kw">CHECK</span> (date_of_birth > <span class="str">'2000-01-01'</span>);
+<span class="kw">ALTER TABLE</span> users <span class="kw">ALTER COLUMN</span> is_active <span class="kw">SET DEFAULT TRUE</span>;</code></pre>
+  </div><div class="hr"></div>
+
+  <div class="sec" id="s4">
+    <h2>INSERT — Adding Data</h2>
+    <pre><code><span class="cm">-- Specify columns (best practice)</span>
+<span class="kw">INSERT INTO</span> users (name, email, gender, date_of_birth, salary) <span class="kw">VALUES</span>
+(<span class="str">'Alice'</span>, <span class="str">'alice@example.com'</span>, <span class="str">'Female'</span>, <span class="str">'1995-05-14'</span>, <span class="nm">65000</span>);
+
+<span class="cm">-- Multiple rows at once</span>
+<span class="kw">INSERT INTO</span> users (name, email, gender, date_of_birth, salary) <span class="kw">VALUES</span>
+(<span class="str">'Bob'</span>,     <span class="str">'bob@example.com'</span>,     <span class="str">'Male'</span>,   <span class="str">'1990-11-23'</span>, <span class="nm">70000</span>),
+(<span class="str">'Charlie'</span>, <span class="str">'charlie@example.com'</span>, <span class="str">'Other'</span>,  <span class="str">'1988-02-17'</span>, <span class="nm">58000</span>),
+(<span class="str">'Eva'</span>,     <span class="str">'eva@example.com'</span>,     <span class="str">'Female'</span>, <span class="str">'1993-12-30'</span>, <span class="nm">72000</span>);</code></pre>
+    <div class="tip"><p>Always name columns — it protects against future table changes.</p></div>
+  </div><div class="hr"></div>
+
+  <div class="sec" id="s5">
+    <h2>SELECT &amp; WHERE</h2>
+    <pre><code><span class="kw">SELECT</span> * <span class="kw">FROM</span> users;
+<span class="kw">SELECT</span> name, email <span class="kw">FROM</span> users;
+
+<span class="cm">-- Comparisons</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> users <span class="kw">WHERE</span> salary > <span class="nm">60000</span>;
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> users <span class="kw">WHERE</span> salary <span class="kw">BETWEEN</span> <span class="nm">50000</span> <span class="kw">AND</span> <span class="nm">70000</span>;
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> users <span class="kw">WHERE</span> gender <span class="kw">IN</span> (<span class="str">'Male'</span>, <span class="str">'Other'</span>);
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> users <span class="kw">WHERE</span> name <span class="kw">LIKE</span> <span class="str">'A%'</span>;      <span class="cm">-- starts with A</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> users <span class="kw">WHERE</span> name <span class="kw">LIKE</span> <span class="str">'%li%'</span>;   <span class="cm">-- contains 'li'</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> users <span class="kw">WHERE</span> date_of_birth <span class="kw">IS NULL</span>;
+
+<span class="cm">-- Logical operators</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> users <span class="kw">WHERE</span> gender = <span class="str">'Female'</span> <span class="kw">AND</span> salary > <span class="nm">70000</span>;
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> users <span class="kw">WHERE</span> gender = <span class="str">'Male'</span> <span class="kw">OR</span> gender = <span class="str">'Other'</span>;
+
+<span class="cm">-- Sorting, pagination, distinct</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> users <span class="kw">ORDER BY</span> salary <span class="kw">DESC</span>;
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> users <span class="kw">LIMIT</span> <span class="nm">10</span> <span class="kw">OFFSET</span> <span class="nm">5</span>;
+<span class="kw">SELECT DISTINCT</span> gender <span class="kw">FROM</span> users;</code></pre>
+  </div><div class="hr"></div>
+
+  <div class="sec" id="s6">
+    <h2>UPDATE &amp; DELETE</h2>
+    <pre><code><span class="kw">UPDATE</span> users <span class="kw">SET</span> name = <span class="str">'Alicia'</span> <span class="kw">WHERE</span> id = <span class="nm">1</span>;
+<span class="kw">UPDATE</span> users <span class="kw">SET</span> name = <span class="str">'Robert'</span>, email = <span class="str">'r@example.com'</span> <span class="kw">WHERE</span> id = <span class="nm">2</span>;
+<span class="kw">UPDATE</span> users <span class="kw">SET</span> salary = salary + <span class="nm">10000</span> <span class="kw">WHERE</span> salary < <span class="nm">60000</span>;</code></pre>
+    <pre><code><span class="kw">DELETE FROM</span> users <span class="kw">WHERE</span> id = <span class="nm">3</span>;
+<span class="kw">DROP TABLE</span> users;       <span class="cm">-- removes table + data</span>
+<span class="kw">TRUNCATE TABLE</span> users;   <span class="cm">-- clears rows, keeps structure, resets AUTO_INCREMENT</span></code></pre>
+    <div class="warn"><p>Always use WHERE with UPDATE/DELETE. Run SELECT first to confirm affected rows.</p></div>
+  </div><div class="hr"></div>
+
+  <div class="sec" id="s7">
+    <h2>Functions</h2>
+    <h3>Aggregate</h3>
+    <pre><code><span class="kw">SELECT</span> <span class="fn">COUNT</span>(*), <span class="fn">MIN</span>(salary), <span class="fn">MAX</span>(salary), <span class="fn">SUM</span>(salary), <span class="fn">AVG</span>(salary) <span class="kw">FROM</span> users;
+<span class="kw">SELECT</span> gender, <span class="fn">AVG</span>(salary) <span class="kw">AS</span> avg_salary <span class="kw">FROM</span> users <span class="kw">GROUP BY</span> gender;</code></pre>
+    <h3>String</h3>
+    <pre><code><span class="kw">SELECT</span> <span class="fn">LENGTH</span>(name), <span class="fn">LOWER</span>(name), <span class="fn">UPPER</span>(name) <span class="kw">FROM</span> users;
+<span class="kw">SELECT</span> <span class="fn">CONCAT</span>(name, <span class="str">' <'</span>, email, <span class="str">'>'</span>) <span class="kw">AS</span> contact <span class="kw">FROM</span> users;</code></pre>
+    <h3>Date</h3>
+    <pre><code><span class="kw">SELECT</span> <span class="fn">NOW</span>();
+<span class="kw">SELECT</span> name, <span class="fn">YEAR</span>(date_of_birth) <span class="kw">FROM</span> users;
+<span class="kw">SELECT</span> name, <span class="fn">DATEDIFF</span>(<span class="fn">CURDATE</span>(), date_of_birth) <span class="kw">AS</span> days_lived <span class="kw">FROM</span> users;
+<span class="kw">SELECT</span> name, <span class="fn">TIMESTAMPDIFF</span>(<span class="kw">YEAR</span>, date_of_birth, <span class="fn">CURDATE</span>()) <span class="kw">AS</span> age <span class="kw">FROM</span> users;</code></pre>
+    <h3>Math &amp; conditional</h3>
+    <pre><code><span class="kw">SELECT</span> <span class="fn">ROUND</span>(salary), <span class="fn">FLOOR</span>(salary), <span class="fn">CEIL</span>(salary) <span class="kw">FROM</span> users;
+<span class="kw">SELECT</span> name, <span class="fn">IF</span>(gender = <span class="str">'Female'</span>, <span class="str">'Yes'</span>, <span class="str">'No'</span>) <span class="kw">AS</span> is_female <span class="kw">FROM</span> users;</code></pre>
+  </div><div class="hr"></div>
+
+  <div class="sec" id="s8">
+    <h2>Transactions &amp; AutoCommit</h2>
+    <pre><code><span class="kw">SET</span> autocommit = <span class="nm">0</span>;                          <span class="cm">-- disable auto-save</span>
+<span class="kw">UPDATE</span> users <span class="kw">SET</span> salary = <span class="nm">80000</span> <span class="kw">WHERE</span> id = <span class="nm">5</span>;
+<span class="kw">COMMIT</span>;                                        <span class="cm">-- save permanently</span>
+<span class="cm">-- or</span>
+<span class="kw">ROLLBACK</span>;                                      <span class="cm">-- undo since last COMMIT</span>
+<span class="kw">SET</span> autocommit = <span class="nm">1</span>;                           <span class="cm">-- re-enable</span></code></pre>
+  </div><div class="hr"></div>
+
+  <div class="sec" id="s9">
+    <h2>Primary Keys &amp; Foreign Keys</h2>
+    <div class="tw"><table>
+      <tr><th>Feature</th><th>PRIMARY KEY</th><th>UNIQUE</th></tr>
+      <tr><td>Must be unique</td><td>Yes</td><td>Yes</td></tr>
+      <tr><td>Allows NULL</td><td>No</td><td>Yes (one NULL)</td></tr>
+      <tr><td>Per table</td><td>Only one</td><td>Many allowed</td></tr>
+    </table></div>
+    <h3>Foreign key with ON DELETE</h3>
+    <pre><code><span class="kw">CREATE TABLE</span> addresses (
+    id      <span class="fn">INT</span> <span class="kw">AUTO_INCREMENT PRIMARY KEY</span>,
+    user_id <span class="fn">INT</span>,
+    city    <span class="fn">VARCHAR</span>(<span class="nm">100</span>),
+    <span class="kw">CONSTRAINT</span> fk_user <span class="kw">FOREIGN KEY</span> (user_id)
+        <span class="kw">REFERENCES</span> users(id) <span class="kw">ON DELETE CASCADE</span>
+);</code></pre>
+    <div class="tw"><table>
+      <tr><th>ON DELETE option</th><th>Behavior</th></tr>
+      <tr><td><ic>CASCADE</ic></td><td>Auto-deletes child rows</td></tr>
+      <tr><td><ic>SET NULL</ic></td><td>Sets FK to NULL in child</td></tr>
+      <tr><td><ic>RESTRICT</ic></td><td>Blocks deletion if child exists (default)</td></tr>
+    </table></div>
+  </div><div class="hr"></div>
+
+  <div class="sec" id="s10">
+    <h2>JOINs</h2>
+    <pre><code><span class="cm">-- INNER JOIN — matching rows only</span>
+<span class="kw">SELECT</span> u.name, a.city <span class="kw">FROM</span> users u
+<span class="kw">INNER JOIN</span> addresses a <span class="kw">ON</span> u.id = a.user_id;
+
+<span class="cm">-- LEFT JOIN — all users, NULL if no address</span>
+<span class="kw">SELECT</span> u.name, a.city <span class="kw">FROM</span> users u
+<span class="kw">LEFT JOIN</span> addresses a <span class="kw">ON</span> u.id = a.user_id;
+
+<span class="cm">-- RIGHT JOIN — all addresses, NULL if no user</span>
+<span class="kw">SELECT</span> u.name, a.city <span class="kw">FROM</span> users u
+<span class="kw">RIGHT JOIN</span> addresses a <span class="kw">ON</span> u.id = a.user_id;</code></pre>
+    <div class="tw"><table>
+      <tr><th>Type</th><th>Returns</th></tr>
+      <tr><td><span class="badge bb">INNER</span></td><td>Rows that match in both tables</td></tr>
+      <tr><td><span class="badge bg">LEFT</span></td><td>All left rows + NULLs for no right match</td></tr>
+      <tr><td><span class="badge ba">RIGHT</span></td><td>All right rows + NULLs for no left match</td></tr>
+    </table></div>
+  </div><div class="hr"></div>
+
+  <div class="sec" id="s11">
+    <h2>UNION &amp; UNION ALL</h2>
+    <pre><code><span class="cm">-- Removes duplicates</span>
+<span class="kw">SELECT</span> name <span class="kw">FROM</span> users
+<span class="kw">UNION</span>
+<span class="kw">SELECT</span> name <span class="kw">FROM</span> admin_users;
+
+<span class="cm">-- Keeps duplicates</span>
+<span class="kw">SELECT</span> name <span class="kw">FROM</span> users
+<span class="kw">UNION ALL</span>
+<span class="kw">SELECT</span> name <span class="kw">FROM</span> admin_users;
+
+<span class="cm">-- Add a role label</span>
+<span class="kw">SELECT</span> name, <span class="str">'User'</span> <span class="kw">AS</span> role <span class="kw">FROM</span> users
+<span class="kw">UNION</span>
+<span class="kw">SELECT</span> name, <span class="str">'Admin'</span> <span class="kw">AS</span> role <span class="kw">FROM</span> admin_users
+<span class="kw">ORDER BY</span> name;</code></pre>
+    <div class="tip"><p>Column count and data types must match across all SELECT statements.</p></div>
+  </div><div class="hr"></div>
+
+  <div class="sec" id="s12">
+    <h2>Self JOIN</h2>
+    <p>Join a table with itself — useful for referral or hierarchical data.</p>
+    <pre><code><span class="kw">ALTER TABLE</span> users <span class="kw">ADD COLUMN</span> referred_by_id <span class="fn">INT</span>;
+
+<span class="kw">SELECT</span>
+  a.id,
+  a.name <span class="kw">AS</span> user_name,
+  b.name <span class="kw">AS</span> referred_by
+<span class="kw">FROM</span> users a
+<span class="kw">LEFT JOIN</span> users b <span class="kw">ON</span> a.referred_by_id = b.id;</code></pre>
+    <div class="tip"><p>Use aliases (<ic>a</ic>, <ic>b</ic>) to distinguish the two "copies" of the same table.</p></div>
+  </div><div class="hr"></div>
+
+  <div class="sec" id="s13">
+    <h2>Views</h2>
+    <p>A virtual table based on a saved SELECT — always reflects live data.</p>
+    <pre><code><span class="kw">CREATE VIEW</span> high_salary_users <span class="kw">AS</span>
+<span class="kw">SELECT</span> id, name, salary <span class="kw">FROM</span> users <span class="kw">WHERE</span> salary > <span class="nm">70000</span>;
+
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> high_salary_users;
+
+<span class="kw">DROP VIEW</span> high_salary_users;</code></pre>
+  </div><div class="hr"></div>
+
+  <div class="sec" id="s14">
+    <h2>Indexes</h2>
+    <pre><code><span class="kw">SHOW INDEXES FROM</span> users;
+
+<span class="kw">CREATE INDEX</span> idx_email <span class="kw">ON</span> users(email);
+<span class="kw">CREATE INDEX</span> idx_gender_salary <span class="kw">ON</span> users(gender, salary);
+<span class="kw">DROP INDEX</span> idx_email <span class="kw">ON</span> users;</code></pre>
+    <div class="warn"><p>Indexes speed up reads but slow down writes. Only index columns used in WHERE, JOIN, or ORDER BY on large tables.</p></div>
+  </div><div class="hr"></div>
+
+  <div class="sec" id="s15">
+    <h2>Subqueries</h2>
+    <pre><code><span class="cm">-- Scalar: users above average salary</span>
+<span class="kw">SELECT</span> id, name, salary <span class="kw">FROM</span> users
+<span class="kw">WHERE</span> salary > (<span class="kw">SELECT</span> <span class="fn">AVG</span>(salary) <span class="kw">FROM</span> users);
+
+<span class="cm">-- IN: users referred by high earners</span>
+<span class="kw">SELECT</span> id, name <span class="kw">FROM</span> users
+<span class="kw">WHERE</span> referred_by_id <span class="kw">IN</span> (
+    <span class="kw">SELECT</span> id <span class="kw">FROM</span> users <span class="kw">WHERE</span> salary > <span class="nm">75000</span>
+);
+
+<span class="cm">-- In SELECT column</span>
+<span class="kw">SELECT</span> name, salary,
+  (<span class="kw">SELECT</span> <span class="fn">AVG</span>(salary) <span class="kw">FROM</span> users) <span class="kw">AS</span> avg_salary
+<span class="kw">FROM</span> users;</code></pre>
+  </div><div class="hr"></div>
+
+  <div class="sec" id="s16">
+    <h2>GROUP BY &amp; HAVING</h2>
+    <pre><code><span class="kw">SELECT</span> gender, <span class="fn">COUNT</span>(*) <span class="kw">AS</span> total <span class="kw">FROM</span> users <span class="kw">GROUP BY</span> gender;
+
+<span class="cm">-- HAVING filters after grouping (WHERE cannot use aggregates)</span>
+<span class="kw">SELECT</span> gender, <span class="fn">AVG</span>(salary) <span class="kw">AS</span> avg_salary
+<span class="kw">FROM</span> users
+<span class="kw">GROUP BY</span> gender
+<span class="kw">HAVING</span> <span class="fn">AVG</span>(salary) > <span class="nm">75000</span>;
+
+<span class="cm">-- ROLLUP adds subtotals + grand total</span>
+<span class="kw">SELECT</span> gender, <span class="fn">COUNT</span>(*) <span class="kw">FROM</span> users <span class="kw">GROUP BY</span> gender <span class="kw">WITH ROLLUP</span>;</code></pre>
+    <div class="tw"><table>
+      <tr><th>Clause</th><th>Runs when</th><th>Aggregates?</th></tr>
+      <tr><td><ic>WHERE</ic></td><td>Before grouping</td><td>No</td></tr>
+      <tr><td><ic>GROUP BY</ic></td><td>Groups rows</td><td>—</td></tr>
+      <tr><td><ic>HAVING</ic></td><td>After grouping</td><td>Yes</td></tr>
+    </table></div>
+  </div><div class="hr"></div>
+
+  <div class="sec" id="s17">
+    <h2>Stored Procedures</h2>
+    <pre><code><span class="kw">DELIMITER</span> $$
+<span class="kw">CREATE PROCEDURE</span> AddUser(
+    <span class="kw">IN</span> p_name   <span class="fn">VARCHAR</span>(<span class="nm">100</span>),
+    <span class="kw">IN</span> p_email  <span class="fn">VARCHAR</span>(<span class="nm">100</span>),
+    <span class="kw">IN</span> p_gender <span class="fn">ENUM</span>(<span class="str">'Male'</span>,<span class="str">'Female'</span>,<span class="str">'Other'</span>),
+    <span class="kw">IN</span> p_dob    <span class="fn">DATE</span>,
+    <span class="kw">IN</span> p_salary <span class="fn">INT</span>
+)
+<span class="kw">BEGIN</span>
+    <span class="kw">INSERT INTO</span> users (name, email, gender, date_of_birth, salary)
+    <span class="kw">VALUES</span> (p_name, p_email, p_gender, p_dob, p_salary);
+<span class="kw">END</span>$$
+<span class="kw">DELIMITER</span> ;
+
+<span class="kw">CALL</span> AddUser(<span class="str">'Kiran'</span>, <span class="str">'kiran@example.com'</span>, <span class="str">'Female'</span>, <span class="str">'1994-06-15'</span>, <span class="nm">72000</span>);
+<span class="kw">DROP PROCEDURE IF EXISTS</span> AddUser;</code></pre>
+    <div class="tip"><p>Delimiter is changed to <ic>$$</ic> so inner semicolons don't confuse MySQL. Always reset it after.</p></div>
+  </div><div class="hr"></div>
+
+  <div class="sec" id="s18">
+    <h2>Triggers</h2>
+    <pre><code><span class="kw">CREATE TABLE</span> user_log (
+    id         <span class="fn">INT</span> <span class="kw">AUTO_INCREMENT PRIMARY KEY</span>,
+    user_id    <span class="fn">INT</span>,
+    name       <span class="fn">VARCHAR</span>(<span class="nm">100</span>),
+    created_on <span class="fn">TIMESTAMP</span> <span class="kw">DEFAULT CURRENT_TIMESTAMP</span>
+);
+
+<span class="kw">DELIMITER</span> $$
+<span class="kw">CREATE TRIGGER</span> after_user_insert
+<span class="kw">AFTER INSERT ON</span> users
+<span class="kw">FOR EACH ROW</span>
+<span class="kw">BEGIN</span>
+    <span class="kw">INSERT INTO</span> user_log (user_id, name)
+    <span class="kw">VALUES</span> (NEW.id, NEW.name);
+<span class="kw">END</span>$$
+<span class="kw">DELIMITER</span> ;
+
+<span class="kw">DROP TRIGGER IF EXISTS</span> after_user_insert;</code></pre>
+    <div class="tw"><table>
+      <tr><th>Keyword</th><th>Meaning</th></tr>
+      <tr><td><ic>BEFORE / AFTER</ic></td><td>When to fire</td></tr>
+      <tr><td><ic>NEW.col</ic></td><td>Value being inserted/updated</td></tr>
+      <tr><td><ic>OLD.col</ic></td><td>Value before update/delete</td></tr>
+      <tr><td><ic>FOR EACH ROW</ic></td><td>Run once per affected row</td></tr>
+    </table></div>
+  </div><div class="hr"></div>
+
+  <div class="sec" id="s19">
+    <h2>More MySQL</h2>
+    <h3>CHANGE vs MODIFY</h3>
+    <pre><code><span class="cm">-- CHANGE: rename + retype</span>
+<span class="kw">ALTER TABLE</span> users <span class="kw">CHANGE COLUMN</span> city location <span class="fn">VARCHAR</span>(<span class="nm">150</span>);
+<span class="cm">-- MODIFY: retype only</span>
+<span class="kw">ALTER TABLE</span> users <span class="kw">MODIFY COLUMN</span> salary <span class="fn">BIGINT</span>;</code></pre>
+    <h3>TRUNCATE vs DELETE</h3>
+    <div class="tw"><table>
+      <tr><th></th><th>TRUNCATE</th><th>DELETE</th></tr>
+      <tr><td>Removes all rows</td><td>Yes</td><td>Yes</td></tr>
+      <tr><td>Can ROLLBACK</td><td>No</td><td>Yes</td></tr>
+      <tr><td>Resets AUTO_INCREMENT</td><td>Yes</td><td>No</td></tr>
+      <tr><td>Speed</td><td>Faster</td><td>Slower</td></tr>
+    </table></div>
+    <h3>LIKE wildcards</h3>
+    <div class="tw"><table>
+      <tr><th>Pattern</th><th>Matches</th></tr>
+      <tr><td><ic>A%</ic></td><td>Starts with A</td></tr>
+      <tr><td><ic>%a</ic></td><td>Ends with a</td></tr>
+      <tr><td><ic>%li%</ic></td><td>Contains "li"</td></tr>
+      <tr><td><ic>_a%</ic></td><td>2nd char is "a"</td></tr>
+    </table></div>
+    <h3>Custom AUTO_INCREMENT start</h3>
+    <pre><code><span class="kw">ALTER TABLE</span> users AUTO_INCREMENT = <span class="nm">1000</span>;</code></pre>
+  </div>
+  <div style="height:2rem"></div>
+</div>
+</div>
+
+<script>
+(function(){
+  var items = document.querySelectorAll('.nav-item');
+  var sections = document.querySelectorAll('.sec');
+
+  items.forEach(function(el){
+    el.addEventListener('click', function(){
+      var id = el.getAttribute('data-id');
+      var target = document.getElementById(id);
+      if(target) target.scrollIntoView({behavior:'smooth', block:'start'});
+      items.forEach(function(n){ n.classList.remove('on'); });
+      el.classList.add('on');
+    });
+  });
+
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        var id = e.target.id;
+        items.forEach(function(n){ n.classList.remove('on'); });
+        var active = document.querySelector('[data-id="'+id+'"]');
+        if(active) active.classList.add('on');
+      }
+    });
+  },{rootMargin:'-10% 0px -80% 0px'});
+
+  sections.forEach(function(s){ obs.observe(s); });
+})();
+</script>
